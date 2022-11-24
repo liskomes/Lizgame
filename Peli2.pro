@@ -5,12 +5,16 @@ CONFIG -= qt
 
 SOURCES += \
         ai.cpp \
+        basicdeck.cpp \
         card.cpp \
+        deck.cpp \
         graph.cpp \
         main.cpp
 
 HEADERS += \
     ai.h \
+    basicdeck.h \
     card.h \
+    deck.h \
     graph.h \
     main.h

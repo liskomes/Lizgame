@@ -5,49 +5,54 @@
 #include <string>
 #include <list>
 #include <iterator>
+#include "basicdeck.h"
 
 using namespace std;
 
 int Game()
 {
-    #define MAXCARD 13                  //kortit maata kohden
+    #define MAXCARD 52                  //Kortit pakassa
     #define MAXMAA 4                    //maat
     #define MAXCARDS 5                  //Käsikortit
 
-    int type_number = 0;                //input
+    string type_number = "0";                //input
+    int type_number2 = 0;                //input
     int playedCards[MAXCARDS][2];       //pelatut kortit
     int AICards[MAXCARDS][2];           //AI pelatut kortit
     int tavoiteNumero = 21;             //tavoiteltu numero
 
     int random_card = 0;                //satunnainen luku
-    int random_maa = 0;                 //satunnainen maa
+
     int total = 0;                      //nostetut kortit
     int totalSum = 0;                   //laskettu summa
     int AItotalSum = 0;
+    BasicDeck Bdeck;
     Card CardGraph;                     //Kortin "grafiikka"
     AI AI1;                             //Vastustaja
     Graph UI;                           //Pelin "grafiikka"
 
     while(true)
     {
-        UI.showOptions();
-        cin >> type_number;
-        switch(type_number)
+        UI.showOptions();       //Uusi kortti yms.
+        cin >> type_number2;
+        switch(type_number2)
         {
         case 1:
             //Pelaajan vuoro
             for(int i = 0; i < MAXCARDS; i++)
             {
-                random_card = 1 + rand() % MAXCARD;                     //Arvo maa ja numero
-                random_maa = rand() % MAXMAA;
+                random_card = 1 + rand() % MAXCARD;
 
-                playedCards[total][0] = random_card;                    //Siirrä kortti pelattujen listaan
-                playedCards[total][1] = random_maa;
+                playedCards[total][0] = Bdeck.CheckMaa(random_card,MAXCARD);   //Siirrä kortti pelattujen listaan
+                //cout << Bdeck.CheckCard(random_card) << endl;
+                playedCards[total][1] = Bdeck.CheckCard(random_card,MAXCARD);
+                //cout << Bdeck.CheckMaa(random_card) << endl;
+
                 CardGraph.showCard(playedCards, total+1, true);         //Näytä kortit
 
-                UI.showCardOptions(totalSum, playedCards[total][0]);    //Näytä vaihtoehdot
+                UI.showCardOptions(totalSum, playedCards[total][0]);    //Näytä vaihtoehdot. Lisää tai vähennä
                 cin >> type_number;                                     //Valinta
-                if (type_number == 1)                                   //1: vähennä, 2: lisää
+                if (type_number == "1")                                   //1: vähennä, 2: lisää
                 {
                     totalSum -= playedCards[total][0];
                 }
@@ -64,10 +69,9 @@ int Game()
             for(int i = 0; i < MAXCARDS; i++)
             {
                 random_card = 1 + rand() % MAXCARD;
-                random_maa = rand() % MAXMAA;
 
-                AICards[total][0] = random_card;
-                AICards[total][1] = random_maa;
+                AICards[total][0] = Bdeck.CheckMaa(random_card,MAXCARD);
+                AICards[total][1] = Bdeck.CheckCard(random_card,MAXCARD);
 
                 if (AI1.NegPosCalc(tavoiteNumero, AItotalSum))
                 {
