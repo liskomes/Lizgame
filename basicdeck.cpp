@@ -11,6 +11,7 @@ BasicDeck::BasicDeck()
     this->cards = 13;
     this->CreateDeck();
     this->totalCards = (this->maat + 1) * cards;
+    this->MAXCARD = (this->maat + 1) * cards;
 }
 
 void BasicDeck::CreateDeck()
@@ -28,20 +29,43 @@ void BasicDeck::CreateDeck()
             this->totalCards++;
         }
     }
+    //this->ShowDeck();
+}
+
+int BasicDeck::CheckMaa(int cCard)
+{
+    //cout << cCard << endl;
+    int tempCard = this->cardbox[cCard][0];
+    this->cardbox[cCard][0] = -1;
+    return tempCard;
+}
+
+int BasicDeck::CheckCard(int cCard)
+{
+    //cout << cCard << endl;
+    int tempCard = this->cardbox[cCard][1];
+    this->cardbox[cCard][1] = -1;
+    return tempCard;
+}
+
+int BasicDeck::RandomCard()
+{
+    while(true)
+    {
+        this->randomCard = rand() % this->MAXCARD;
+        if(this->cardbox[this->randomCard][0] != -1)
+        {
+            //this->ShowDeck();
+            break;
+        }
+    }
+    return randomCard;
+}
+
+void BasicDeck::ShowDeck()
+{
     for(int i = 0; i < 52; i++)
     {
         cout << this->cardbox[i][0] << "-" << this->cardbox[i][1] << endl;
     }
-}
-
-int BasicDeck::CheckMaa(int cCard,int MAXCARD)
-{
-    //cout << cCard << endl;
-    return this->cardbox[cCard][0];
-}
-
-int BasicDeck::CheckCard(int cCard,int MAXCARD)
-{
-    //cout << cCard << endl;
-    return this->cardbox[cCard][1];
 }

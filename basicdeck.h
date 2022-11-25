@@ -7,11 +7,14 @@ class BasicDeck: Deck
 {
 private:
     int cardbox[52][4];
-    void CreateDeck();
+    int MAXCARD;
 public:
     BasicDeck();
-    int CheckCard(int cCard, int MAXCARD);
-    int CheckMaa(int cCard, int MAXCARD);
+    int CheckCard(int cCard);
+    int CheckMaa(int cCard);
+    int RandomCard();
+    void ShowDeck();
+    void CreateDeck();
 };
 
 #endif // BASICDECK_H

@@ -6,8 +6,10 @@ Graph::Graph()
 {
 
 }
-void Graph::showOptions()
+void Graph::showOptions(int points[2])
 {
+    cout << " \n <------------------------------------------------------------------>" << endl;
+    cout << "   Pisteesi: " << points[0] << " / Vastapelaajan pisteet: " << points[1] << endl;
     cout << "   _________________________________________________________________ " << endl;
     cout << "  |                                                                 |" << endl;
     cout << "  |                          1: Uusi kortti                         |" << endl;

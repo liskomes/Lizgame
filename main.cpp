@@ -15,25 +15,26 @@ int Game()
     #define MAXMAA 4                    //maat
     #define MAXCARDS 5                  //Käsikortit
 
-    string type_number = "0";                //input
-    int type_number2 = 0;                //input
+    string type_number = "0";           //input
+    int type_number2 = 0;               //input
     int playedCards[MAXCARDS][2];       //pelatut kortit
     int AICards[MAXCARDS][2];           //AI pelatut kortit
     int tavoiteNumero = 21;             //tavoiteltu numero
+    int points[2] = {0,0};              //Pisteet
 
     int random_card = 0;                //satunnainen luku
 
     int total = 0;                      //nostetut kortit
-    int totalSum = 0;                   //laskettu summa
-    int AItotalSum = 0;
-    BasicDeck Bdeck;
+    int totalSum = 0;                   //pelaajan summa
+    int AItotalSum = 0;                 //AI:n summa
+    BasicDeck Bdeck;                    //Korttipakka
     Card CardGraph;                     //Kortin "grafiikka"
     AI AI1;                             //Vastustaja
     Graph UI;                           //Pelin "grafiikka"
 
     while(true)
     {
-        UI.showOptions();       //Uusi kortti yms.
+        UI.showOptions(points);       //Uusi kortti yms.
         cin >> type_number2;
         switch(type_number2)
         {
@@ -41,18 +42,16 @@ int Game()
             //Pelaajan vuoro
             for(int i = 0; i < MAXCARDS; i++)
             {
-                random_card = 1 + rand() % MAXCARD;
+                random_card = Bdeck.RandomCard();
 
-                playedCards[total][0] = Bdeck.CheckMaa(random_card,MAXCARD);   //Siirrä kortti pelattujen listaan
-                //cout << Bdeck.CheckCard(random_card) << endl;
-                playedCards[total][1] = Bdeck.CheckCard(random_card,MAXCARD);
-                //cout << Bdeck.CheckMaa(random_card) << endl;
+                playedCards[total][0] = Bdeck.CheckMaa(random_card);    //Siirrä kortti pelattujen listaan
+                playedCards[total][1] = Bdeck.CheckCard(random_card);
 
                 CardGraph.showCard(playedCards, total+1, true);         //Näytä kortit
 
                 UI.showCardOptions(totalSum, playedCards[total][0]);    //Näytä vaihtoehdot. Lisää tai vähennä
                 cin >> type_number;                                     //Valinta
-                if (type_number == "1")                                   //1: vähennä, 2: lisää
+                if (type_number == "1")                                 //1: vähennä, 2: lisää
                 {
                     totalSum -= playedCards[total][0];
                 }
@@ -68,12 +67,12 @@ int Game()
             //AI:n vuoro
             for(int i = 0; i < MAXCARDS; i++)
             {
-                random_card = 1 + rand() % MAXCARD;
+                random_card = Bdeck.RandomCard();
 
-                AICards[total][0] = Bdeck.CheckMaa(random_card,MAXCARD);
-                AICards[total][1] = Bdeck.CheckCard(random_card,MAXCARD);
+                AICards[total][0] = Bdeck.CheckMaa(random_card);
+                AICards[total][1] = Bdeck.CheckCard(random_card);
 
-                if (AI1.NegPosCalc(tavoiteNumero, AItotalSum))
+                if (AI1.NegPosCalc(tavoiteNumero, AItotalSum, total, AICards[total][0]))
                 {
                     AItotalSum -= AICards[total][0];
                 }
@@ -84,14 +83,42 @@ int Game()
 
                 total += 1;
             }
+
+
             CardGraph.showCard(playedCards, total, false);
             UI.ShowResults(totalSum,true);
             CardGraph.showCard(AICards, total, false);
             UI.ShowResults(AItotalSum,false);
+            //lasketaan pisteet
+            totalSum = tavoiteNumero - totalSum;
+            AItotalSum = tavoiteNumero - AItotalSum;
+
+            if (totalSum < 0)
+            {
+                totalSum*=-1;
+            }
+            if (AItotalSum < 0)
+            {
+                AItotalSum*=-1;
+            }
+
+            if (totalSum < AItotalSum)
+            {
+                points[0] += 1;
+            }
+            else if (totalSum == AItotalSum)
+            {
+            }
+            else
+            {
+                points[1] += 1;
+            }
 
             total = 0;
             totalSum = 0;
             AItotalSum = 0;
+
+            Bdeck.CreateDeck();
             break;
         case 9:
             return 1;

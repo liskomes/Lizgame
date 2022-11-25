@@ -11,6 +11,7 @@ public:
     int cards = 0;
     int maat = 0;
     int totalCards = 0;
+    int randomCard = 0;
 };
 
 #endif // DECK_H
