@@ -8,6 +8,7 @@ SOURCES += \
         basicdeck.cpp \
         card.cpp \
         deck.cpp \
+        game.cpp \
         graph.cpp \
         main.cpp
 
@@ -16,5 +17,6 @@ HEADERS += \
     basicdeck.h \
     card.h \
     deck.h \
+    game.h \
     graph.h \
     main.h
