@@ -1,11 +1,7 @@
 #include <iostream>
-//#include "card.h"
-//#include "ai.h"
-//#include "graph.h"
 #include <string>
 #include <list>
 #include <iterator>
-//#include "basicdeck.h"
 #include "game.h"
 
 using namespace std;

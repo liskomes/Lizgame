@@ -1,5 +1,4 @@
 #include "basicdeck.h"
-#include "deck.h"
 #include <iostream>
 #include <ostream>
 
@@ -25,16 +24,13 @@ void BasicDeck::CreateDeck()
         {
             this->cardbox[this->totalCards][0] = i;
             this->cardbox[this->totalCards][1] = y;
-            //cout << this->cardbox[this->totalCards][0] << "-" << this->cardbox[this->totalCards][1] << endl;
             this->totalCards++;
         }
     }
-    //this->ShowDeck();
 }
 
 int BasicDeck::CheckMaa(int cCard)
 {
-    //cout << cCard << endl;
     int tempCard = this->cardbox[cCard][0];
     this->cardbox[cCard][0] = -1;
     return tempCard;
@@ -42,7 +38,6 @@ int BasicDeck::CheckMaa(int cCard)
 
 int BasicDeck::CheckCard(int cCard)
 {
-    //cout << cCard << endl;
     int tempCard = this->cardbox[cCard][1];
     this->cardbox[cCard][1] = -1;
     return tempCard;
@@ -55,7 +50,6 @@ int BasicDeck::RandomCard()
         this->randomCard = rand() % this->MAXCARD;
         if(this->cardbox[this->randomCard][0] != -1)
         {
-            //this->ShowDeck();
             break;
         }
     }
