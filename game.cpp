@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include <iterator>
+#include <fstream>
 #include "basicdeck.h"
 
 using namespace std;
@@ -18,11 +19,15 @@ void Game::StartGame()
 {
     while(true)
     {
-        UI.showOptions(points);                                         //Uusi kortti yms.
+        UI.showOptions(points); //Uusi kortti yms.
+
         cin >> type_number;
         if (type_number == "9")
         {
-            break;
+            points[0] = 0;
+            points[1] = 0;
+            FinalResults();
+            Menu();
         }
         if (type_number == "1")
         {
@@ -33,6 +38,40 @@ void Game::StartGame()
             showResults();      //Näytä kädet ja tulokset
 
             FinalResults();     //lasketaan pisteet ja nollataan pakka
+        }
+        if (type_number == "7")
+        {
+            ofstream tiedosto;
+            tiedosto.open("save.dat", std::ios_base::app);
+            if (tiedosto.is_open())
+            {
+                tiedosto << "Pisteet:\n";
+                tiedosto << points[0] << endl;
+                tiedosto << points[1] << endl;
+                tiedosto.close();
+                //cout << "data.dat avattu" << endl;
+            }
+            else
+            {
+                //cout << "data.dat -tiedosto puuttuu" << endl;
+            }
+        }
+        if (type_number == "8")
+        {
+            ofstream tiedosto;
+            tiedosto.open("save.dat", std::ios_base::app);
+            if (tiedosto.is_open())
+            {
+                tiedosto << "Pisteet:\n";
+                tiedosto << points[0] << endl;
+                tiedosto << points[1] << endl;
+                tiedosto.close();
+                //cout << "data.dat avattu" << endl;
+            }
+            else
+            {
+                //cout << "data.dat -tiedosto puuttuu" << endl;
+            }
         }
     }
 }
@@ -48,15 +87,22 @@ void Game::PlayerTurn()
 
         CardGraph.showCard(playedCards, total+1, true);         //Näytä kortit
 
-        UI.showCardOptions(totalSum, playedCards[total][0]);    //Näytä vaihtoehdot. Lisää tai vähennä
-        cin >> type_number;                                     //Valinta
-        if (type_number == "1")                                 //1: vähennä, 2: lisää
+        UI.showCardOptions(totalSum, playedCards[total][0],points);    //Näytä vaihtoehdot. Lisää tai vähennä
+
+        while(true)
         {
-            totalSum -= playedCards[total][0];
-        }
-        else if (type_number == "2")
-        {
-            totalSum += playedCards[total][0];
+            cin >> type_number;                                     //Valinta
+            if (type_number == "1")                                 //1: vähennä, 2: lisää
+            {
+                totalSum -= playedCards[total][0];
+                break;
+            }
+            else if (type_number == "2")
+            {
+                totalSum += playedCards[total][0];
+                break;
+            }
+
         }
 
         total += 1;
@@ -126,4 +172,25 @@ void Game::FinalResults()
     Bdeck.CreateDeck();
 }
 
-
+int Game::Menu()
+{
+    int type_number2 = 0;
+    cout << "   _________________________________________________________________ " << endl;
+    cout << "  |                                                                 |" << endl;
+    cout << "  |                          1: Aloita                              |" << endl;
+    cout << "  |                          2: Lopeta                              |" << endl;
+    cout << "  |_________________________________________________________________|" << endl;
+    cin >> type_number2;
+    switch(type_number2)
+    {
+    case 1:
+        this->StartGame();
+        break;
+    case 2:
+        return 0;
+        break;
+    default:
+        return 0;
+        break;
+    }
+}

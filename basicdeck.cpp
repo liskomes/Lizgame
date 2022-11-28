@@ -10,8 +10,8 @@ BasicDeck::BasicDeck()
     this->maat = 3;
     this->cards = 13;
     this->CreateDeck();
-    this->totalCards = (this->maat + 1) * cards;
-    this->MAXCARD = (this->maat + 1) * cards;
+    this->totalCards = (this->maat + 1) * this->cards;
+    this->MAXCARD = (this->maat + 1) * this->cards;
 }
 
 void BasicDeck::CreateDeck()
@@ -59,7 +59,7 @@ int BasicDeck::RandomCard()
             break;
         }
     }
-    return randomCard;
+    return this->randomCard;
 }
 
 void BasicDeck::ShowDeck()
