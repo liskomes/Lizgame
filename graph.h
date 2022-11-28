@@ -18,6 +18,7 @@ public:
     void drawLine(int pituus,int kerrat, bool top);
     void drawBottomLine(int pituus,int kerrat);
     void drawMiddlePart(int pituus,int kerrat);
+    void drawArrow(int pituus,int kerrat);
 };
 
 #endif // GRAPH_H

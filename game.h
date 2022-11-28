@@ -41,7 +41,10 @@ public:
     void AITurn();
     void showResults();
     void FinalResults();
-    int Menu();
+    void Menu();
+    void ShowWinner();
+    void SaveGame();
+    void LoadGame();
 };
 
 #endif // GAME_H

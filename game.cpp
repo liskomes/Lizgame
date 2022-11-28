@@ -8,8 +8,12 @@
 #include <iterator>
 #include <fstream>
 #include "basicdeck.h"
+#include <thread>
+#include <chrono>
 
 using namespace std;
+using namespace std::this_thread;
+using namespace std::chrono;
 
 Game::Game()
 {
@@ -19,87 +23,86 @@ void Game::StartGame()
 {
     while(true)
     {
-        UI.showOptions(points); //Uusi kortti yms.
+        UI.showOptions(points);                     //Uusi kortti yms.
 
-        cin >> type_number;
+        cin >> type_number;                         //Valinta
         if (type_number == "9")
         {
-            points[0] = 0;
+            points[0] = 0;                          //Nollaa pakka ja pisteet
             points[1] = 0;
             FinalResults();
             Menu();
         }
         if (type_number == "1")
         {
-            PlayerTurn();       //Pelaajan vuoro
+            PlayerTurn();                           //Pelaajan vuoro
             total = 0;
-            AITurn();           //AI:n vuoro
+            AITurn();                               //AI:n vuoro
 
-            showResults();      //Näytä kädet ja tulokset
+            showResults();                          //Näytä kädet ja tulokset
 
-            FinalResults();     //lasketaan pisteet ja nollataan pakka
+            FinalResults();                         //lasketaan pisteet ja nollataan pakka
+
+            ShowWinner();                           //Tarkista voittaja
         }
-        if (type_number == "7")
+        if (type_number == "7")                     //Tallenna peli
         {
-            ofstream tiedosto;
-            tiedosto.open("save.dat", std::ios_base::app);
-            if (tiedosto.is_open())
-            {
-                tiedosto << "Pisteet:\n";
-                tiedosto << points[0] << endl;
-                tiedosto << points[1] << endl;
-                tiedosto.close();
-                //cout << "data.dat avattu" << endl;
-            }
-            else
-            {
-                //cout << "data.dat -tiedosto puuttuu" << endl;
-            }
+            SaveGame();
         }
-        if (type_number == "8")
+        if (type_number == "8")                     //Lataa peli
         {
-            ofstream tiedosto;
-            tiedosto.open("save.dat", std::ios_base::app);
-            if (tiedosto.is_open())
-            {
-                tiedosto << "Pisteet:\n";
-                tiedosto << points[0] << endl;
-                tiedosto << points[1] << endl;
-                tiedosto.close();
-                //cout << "data.dat avattu" << endl;
-            }
-            else
-            {
-                //cout << "data.dat -tiedosto puuttuu" << endl;
-            }
+            LoadGame();
         }
     }
 }
 
-void Game::PlayerTurn()
+void Game::ShowWinner()             //Tarkasta jos toinen on saanut 10 pistettä
+{
+    if (points[0] >= 10)
+    {
+        points[0] = 0;
+        points[1] = 0;
+        FinalResults();
+        UI.drawArrow(65,1);
+        cout << "          Onneksi olkoon, voitit pelin!" << endl;
+        UI.drawArrow(65,1);
+        Menu();
+    }
+    else if (points[1] >= 10)
+    {
+        points[0] = 0;
+        points[1] = 0;
+        UI.drawArrow(65,1);
+        cout << "          Nyt ei tullut voittoa!" << endl;
+        UI.drawArrow(65,1);
+        FinalResults();
+        Menu();
+    }
+}
+void Game::PlayerTurn()                                                 //Pelaajan vuoro
 {
     for(int i = 0; i < MAXCARDS; i++)
     {
         random_card = Bdeck.RandomCard();
 
-        playedCards[total][0] = Bdeck.CheckMaa(random_card);    //Siirrä kortti pelattujen listaan
+        playedCards[total][0] = Bdeck.CheckMaa(random_card);            //Siirrä kortti pelattujen listaan
         playedCards[total][1] = Bdeck.CheckCard(random_card);
 
-        CardGraph.showCard(playedCards, total+1, true);         //Näytä kortit
+        CardGraph.showCard(playedCards, total+1, true);                 //Näytä kortit
 
-        UI.showCardOptions(totalSum, playedCards[total][0],points);    //Näytä vaihtoehdot. Lisää tai vähennä
+        UI.showCardOptions(totalSum, playedCards[total][0],points);     //Näytä vaihtoehdot. Lisää tai vähennä
 
         while(true)
         {
-            cin >> type_number;                                     //Valinta
-            if (type_number == "1")                                 //1: vähennä, 2: lisää
+            cin >> type_number;                                         //Valinta
+            if (type_number == "1")                                     //1: vähennä, 2: lisää
             {
-                totalSum -= playedCards[total][0];
+                totalSum += playedCards[total][0];
                 break;
             }
             else if (type_number == "2")
             {
-                totalSum += playedCards[total][0];
+                totalSum -= playedCards[total][0];
                 break;
             }
 
@@ -109,14 +112,19 @@ void Game::PlayerTurn()
     }
 }
 
-void Game::AITurn()
+void Game::AITurn()                                                     //AI:n vuoro
 {
     for(int i = 0; i < MAXCARDS; i++)
     {
+        cout << "   AI:n vuoro" << endl;
+        UI.drawArrow(65,1);
+        sleep_for(0.5s);
         random_card = Bdeck.RandomCard();
 
         AICards[total][0] = Bdeck.CheckMaa(random_card);
         AICards[total][1] = Bdeck.CheckCard(random_card);
+
+        CardGraph.showCard(AICards, total+1, true);
 
         if (AI1.NegPosCalc(tavoiteNumero, AItotalSum, total, AICards[total][0]))
         {
@@ -126,7 +134,7 @@ void Game::AITurn()
         {
             AItotalSum += AICards[total][0];
         }
-
+        sleep_for(1.5s);
         total += 1;
     }
 }
@@ -172,7 +180,7 @@ void Game::FinalResults()
     Bdeck.CreateDeck();
 }
 
-int Game::Menu()
+void Game::Menu()
 {
     int type_number2 = 0;
     cout << "   _________________________________________________________________ " << endl;
@@ -186,11 +194,42 @@ int Game::Menu()
     case 1:
         this->StartGame();
         break;
-    case 2:
-        return 0;
-        break;
-    default:
-        return 0;
-        break;
+    }
+}
+
+void Game::LoadGame()
+{
+    int omatpisteet;
+    int vihollispisteet;
+    ifstream tiedosto;
+    tiedosto.open("data.lzk");
+    if (tiedosto.is_open())
+    {
+        tiedosto >> omatpisteet;
+        tiedosto >> vihollispisteet;
+        tiedosto.close();
+        cout << "   data.lzk avattu: " << omatpisteet << "/" << vihollispisteet << endl;
+        points[0] = omatpisteet;
+        points[1] = vihollispisteet;
+    }
+    else
+    {
+        cout << "   data.lzk -tiedoston avaaminen ei onnistunut" << endl;
+    }
+}
+
+void Game::SaveGame()
+{
+    ofstream tiedosto;
+    tiedosto.open("data.lzk");
+    if (tiedosto.is_open())
+    {
+        tiedosto << points[0] << " " << points[1] << endl;
+        tiedosto.close();
+        cout << "   data.lzk tallennettu" << endl;
+    }
+    else
+    {
+        cout << "   data.lzk -tiedoston tallentaminen ei onnistunut" << endl;
     }
 }

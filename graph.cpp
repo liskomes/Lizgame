@@ -8,13 +8,11 @@ Graph::Graph()
 }
 void Graph::showOptions(int points[2])
 {
-    cout << " \n <------------------------------------------------------------------->" << endl;
+    drawArrow(65,1);
     cout << "   Pisteesi: " << points[0] << " / Vastapelaajan pisteet: " << points[1] << endl;
     drawLine(65,1,true);
-    cout << "  |";
-    drawNumber(points[0]);
-    cout << "                                                           ";
-    drawNumber2(points[1]);
+    cout << "  |"; drawNumber(points[0]);
+    cout << "                                                           "; drawNumber2(points[1]);
     cout << "|" << endl;
     cout << "  |                          1: Uudet kortit                        |" << endl;
     drawMiddlePart(65,1);
@@ -34,19 +32,12 @@ void Graph::showCardOptions(int sum, int num, int points[2])
     drawNumber2(points[1]);
     cout << "|" << endl;
 
-    cout << "  |                     1: Poista tuloksestasi: ";
-    drawNumber(num);
-    cout << "                 |" << endl;
-
-    cout << "  |                     2: Summaa tulokseesi: ";
-    drawNumber(num);
-    cout << "                   |" << endl;
+    cout << "  |                     1: Summaa tulokseesi: "; drawNumber(num); cout << "                   |" << endl;
+    cout << "  |                     2: Poista tuloksestasi: "; drawNumber(num); cout << "                 |" << endl;
 
     drawMiddlePart(65,1);
 
-    cout << "  |                     Kokonaistuloksesi on: ";
-    drawNumber(sum);
-    cout << "                   |" << endl;
+    cout << "  |                     Kokonaistuloksesi on: "; drawNumber(sum); cout << "                   |" << endl;
 
     drawLine(65,1,false);
 }
@@ -55,11 +46,11 @@ void Graph::ShowResults(int sum, bool player)
 {
     if (player == true)
     {
-        cout << "  |__________________Tuloksesi on: " << sum << "______________________________|" << endl;
+        cout << "  |__________________Tuloksesi on: "; drawNumber(sum); cout << "______________________________|" << endl;
     }
     if (player == false)
     {
-        cout << "  |_________________Vastustajan tulos on: " << sum << "_______________________|" << endl;
+        cout << "  |_________________Vastustajan tulos on: "; drawNumber(sum); cout << "_______________________|" << endl;
     }
 
 }
@@ -142,5 +133,17 @@ void Graph::drawMiddlePart(int pituus, int kerrat)
             cout << " ";
         }
         cout << "|\n";
+    }
+}
+void Graph::drawArrow(int pituus, int kerrat)
+{
+    cout << "  <";
+    for(int i = kerrat; i > 0; i--)
+    {
+        for(int a = pituus; a > 0; a--)
+        {
+            cout << "-";
+        }
+        cout << ">\n";
     }
 }
