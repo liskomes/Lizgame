@@ -12,14 +12,8 @@ AI::AI()
 }
 bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card)
 {
-    //cout << this-> risk << endl;
-    //cout << "Riski: " << (this->risk + this->risk_g) << endl;
-    //cout << "Turn: " << total << endl;
-    //cout << "Kortti: " << card << endl;
-    //cout << "Nykyinen tulos: " << nykyinen << endl;
     int calc1 = tavoite-nykyinen-card;
     int calc2 = tavoite-nykyinen+card;
-    //cout << "MINUS: " << calc2 << " / " << "PLUS: " << calc1 << endl;
 
     if (calc1 < 0)
     {
@@ -30,15 +24,15 @@ bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card)
         calc2 *= -1;
     }
 
-    //cout << calc1 << " / " << calc2 << endl;
     if (calc1 < calc2)
     {
-        cout << "  ---PLUS--- Tulos: " << nykyinen + card << endl << endl;
+        cout << "  ---PLUS--- Tulos: " << nykyinen + card << " / Siirto: " << total+1 << endl << endl;
         return false;
     }
     else
     {
-        cout << "  --MIINUS-- Tulos: " << nykyinen - card  << endl << endl;
+        cout << "  --MIINUS-- Tulos: " << nykyinen - card << " / Siirto: " << total+1 << endl << endl;
         return true;
     }
 }
+
