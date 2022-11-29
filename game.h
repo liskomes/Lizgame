@@ -9,6 +9,7 @@
 #include <list>
 #include <iterator>
 #include "basicdeck.h"
+
 using namespace std;
 
 class Game
@@ -45,6 +46,7 @@ public:
     void ShowWinner();
     void SaveGame();
     void LoadGame();
+    void showDeckBox();
 };
 
 #endif // GAME_H

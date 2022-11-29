@@ -13,7 +13,7 @@ AI::AI()
 bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card, float average)
 {
     average *=(5-total)-1;
-    if (average > 6.5) average*=0.8*this->risk;
+    if (average > 6.5) average*=0.5*this->risk;
 
     this->tavoite1 = tavoite-average;
     this->tavoite2 = tavoite+average;

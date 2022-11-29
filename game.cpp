@@ -24,7 +24,7 @@ void Game::StartGame()
     while(true)
     {
         UI.showOptions(points);                     //Uusi kortti yms.
-
+        cout << "   Valitse: ";
         cin >> type_number;                         //Valinta
         if (type_number == "9")
         {
@@ -94,6 +94,7 @@ void Game::PlayerTurn()                                                 //Pelaaj
 
         while(true)
         {
+            cout << "   Valitse: ";
             cin >> type_number;                                         //Valinta
             if (type_number == "1")                                     //1: vähennä, 2: lisää
             {
@@ -150,6 +151,29 @@ void Game::showResults()
     UI.ShowResults(AItotalSum,false);
 }
 
+void Game::showDeckBox()
+{
+    Bdeck.CreateDeck();
+    int total = 0;
+
+        for(int i = 0; i < MAXCARD; i++)
+        {
+            AICards[total][0] = Bdeck.CheckMaa(i);
+            AICards[total][1] = Bdeck.CheckCard(i);
+            total++;
+
+            if ((total > 5) or (i == 51))
+            {
+                CardGraph.showCard(AICards, total, false);
+                total = 0;
+            }
+
+        }
+     points[0] = 0;
+     points[1] = 0;
+     Bdeck.CreateDeck();
+}
+
 void Game::FinalResults()
 {
     totalSum = tavoiteNumero - totalSum;
@@ -189,14 +213,38 @@ void Game::Menu()
     cout << "   _________________________________________________________________ " << endl;
     cout << "  |                                                                 |" << endl;
     cout << "  |                          1: Aloita                              |" << endl;
-    cout << "  |                          2: Lopeta                              |" << endl;
+    cout << "  |                          2: Katsele pakkaa                      |" << endl;
+    cout << "  |                          3: Lataa peli                          |" << endl;
+    cout << "  |                          Muu: Lopeta                            |" << endl;
     cout << "  |_________________________________________________________________|" << endl;
+    cout << "   Valitse: ";
     cin >> type_number2;
     switch(type_number2)
     {
     case 1:
         this->StartGame();
         break;
+    case 2:
+        this->showDeckBox();
+        this->Menu();
+        break;
+    case 3:
+        this->LoadGame();
+        Bdeck.CreateDeck();
+        if ((points[0] > 0) or (points[1] > 0))
+        {
+            this->StartGame();
+        }
+        else
+        {
+            this->Menu();
+        }
+        break;
+    case 4:
+        return;
+        break;
+    default:
+        return;
     }
 }
 
@@ -205,34 +253,49 @@ void Game::LoadGame()
     int omatpisteet;
     int vihollispisteet;
     ifstream tiedosto;
-    tiedosto.open("data.lzk");
+    cout << "   Anna tallennuksesi nimi: ";
+    string name;
+    cin >> name;
+    name = name + ".lzk";
+    tiedosto.open(name);
     if (tiedosto.is_open())
     {
         tiedosto >> omatpisteet;
         tiedosto >> vihollispisteet;
         tiedosto.close();
-        cout << "   data.lzk avattu: " << omatpisteet << "/" << vihollispisteet << endl;
         points[0] = omatpisteet;
         points[1] = vihollispisteet;
+        if ((points[0] > 0) or (points[1] > 0))
+        {
+            cout << "   " << name << " avattu: " << omatpisteet << "/" << vihollispisteet << endl;
+        }
+        else
+        {
+            cout << "   Tiedoston lataaminen onnistui, mutta se ei toimi tai tilanne on 0-0" << endl;
+        }
     }
     else
     {
-        cout << "   data.lzk -tiedoston avaaminen ei onnistunut" << endl;
+        cout << "   " << name << " -tiedoston avaaminen ei onnistunut" << endl;
     }
 }
 
 void Game::SaveGame()
 {
     ofstream tiedosto;
-    tiedosto.open("data.lzk");
+    cout << "   Tallennusnimi: ";
+    string name;
+    cin >> name;
+    name = name + ".lzk";
+    tiedosto.open(name);
     if (tiedosto.is_open())
     {
         tiedosto << points[0] << " " << points[1] << endl;
         tiedosto.close();
-        cout << "   data.lzk tallennettu" << endl;
+        cout << "   " << name << " tallennettu" << endl;
     }
     else
     {
-        cout << "   data.lzk -tiedoston tallentaminen ei onnistunut" << endl;
+        cout << "   " << name << " -tiedoston tallentaminen ei onnistunut" << endl;
     }
 }

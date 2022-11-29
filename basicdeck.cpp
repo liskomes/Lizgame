@@ -6,11 +6,12 @@ using namespace std;
 
 BasicDeck::BasicDeck()
 {
-    this->maat = 3;
-    this->cards = 13;
+    //this->maat = 3;
+    //this->cards = 13;
     this->CreateDeck();
-    this->totalCards = (this->maat + 1) * this->cards;
-    this->MAXCARD = (this->maat + 1) * this->cards;
+    //this->totalCards = (this->maat + 1) * this->cards;
+    //this->MAXCARD = (this->maat + 1) * this->cards;
+    //Deck();
 }
 
 void BasicDeck::CreateDeck()
@@ -45,20 +46,21 @@ int BasicDeck::CheckCard(int cCard)
 
 int BasicDeck::RandomCard()
 {
-    while(true)
+  while(true)
     {
-        this->randomCard = rand() % this->MAXCARD;
+    this->randomCard = rand() % this->MAXCARD;
         if(this->cardbox[this->randomCard][0] != -1)
         {
-            break;
+        break;
         }
     }
-    return this->randomCard;
+  //ShowDeck();
+  return this->randomCard;
 }
 
 void BasicDeck::ShowDeck()
 {
-    for(int i = 0; i < 52; i++)
+    for(int i = 0; i < this->MAXCARD; i++)
     {
         cout << this->cardbox[i][0] << "-" << this->cardbox[i][1] << endl;
     }
@@ -68,7 +70,7 @@ float BasicDeck::GiveAverage()
 {
     float average = 0;
     int cardsInGame = 0;
-    for(int i = 0; i < 52; i++)
+    for(int i = 0; i < this->MAXCARD; i++)
     {
         if (this->cardbox[i][0] != -1)
         {
