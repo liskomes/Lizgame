@@ -17,6 +17,7 @@ public:
     int RandomCard();
     void ShowDeck();
     void CreateDeck();
+    float GiveAverage();
 };
 
 #endif // BASICDECK_H

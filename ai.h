@@ -9,7 +9,7 @@ private:
     double risk_g;
 public:
     AI();
-    bool NegPosCalc(int tavoite, int nykyinen, int total, int card);
+    bool NegPosCalc(int tavoite, int nykyinen, int total, int card, float average);
 };
 
 #endif // AI_H

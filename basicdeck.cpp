@@ -63,3 +63,18 @@ void BasicDeck::ShowDeck()
         cout << this->cardbox[i][0] << "-" << this->cardbox[i][1] << endl;
     }
 }
+
+float BasicDeck::GiveAverage()
+{
+    float average = 0;
+    int cardsInGame = 0;
+    for(int i = 0; i < 52; i++)
+    {
+        if (this->cardbox[i][0] != -1)
+        {
+            average += this->cardbox[i][0];
+            cardsInGame += 1;
+        }
+    }
+    return average/cardsInGame;
+}

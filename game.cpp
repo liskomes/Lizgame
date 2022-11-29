@@ -98,11 +98,13 @@ void Game::PlayerTurn()                                                 //Pelaaj
             if (type_number == "1")                                     //1: vähennä, 2: lisää
             {
                 totalSum += playedCards[total][0];
+                cout << "  --PLUS-- Tulos: " << totalSum << " / Siirto: " << total+1 << endl << endl;
                 break;
             }
             else if (type_number == "2")
             {
                 totalSum -= playedCards[total][0];
+                cout << "  --MIINUS-- Tulos: " << totalSum<< " / Siirto: " << total+1 << endl << endl;
                 break;
             }
 
@@ -114,10 +116,10 @@ void Game::PlayerTurn()                                                 //Pelaaj
 
 void Game::AITurn()                                                     //AI:n vuoro
 {
+    cout << "   AI:n vuoro" << endl;
+    UI.drawArrow(65,1);
     for(int i = 0; i < MAXCARDS; i++)
     {
-        cout << "   AI:n vuoro" << endl;
-        UI.drawArrow(65,1);
         sleep_for(0.5s);
         random_card = Bdeck.RandomCard();
 
@@ -126,7 +128,7 @@ void Game::AITurn()                                                     //AI:n v
 
         CardGraph.showCard(AICards, total+1, true);
 
-        if (AI1.NegPosCalc(tavoiteNumero, AItotalSum, total, AICards[total][0]))
+        if (AI1.NegPosCalc(tavoiteNumero, AItotalSum, total, AICards[total][0],Bdeck.GiveAverage()))
         {
             AItotalSum -= AICards[total][0];
         }
@@ -137,6 +139,7 @@ void Game::AITurn()                                                     //AI:n v
         sleep_for(1.5s);
         total += 1;
     }
+    UI.drawArrow(65,1);
 }
 
 void Game::showResults()
