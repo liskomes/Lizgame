@@ -6,19 +6,18 @@ using namespace std;
 
 BasicDeck::BasicDeck()
 {
-    this->maat = 3;
-    this->cards = 13;
-    this->startingCard = 1;
-    this->totalCards = (this->maat + 1) * this->cards;
+    this->maat = 3;                                     //Pakassa olevat maat
+    this->cards = 13;                                   //Pakassa olevat kortit
+    this->startingCard = 1;                             //Aloituskortti josta maan kortit lähtevät ylöspäin
+    this->totalCards = (this->maat + 1) * this->cards;  //Kortit yhteensä pakassa
     this->MAXCARD = (this->maat + 1) * this->cards;
-    this->CreateDeck();
+    this->CreateDeck();                                 //Tee pakka
 }
 
-void BasicDeck::CreateDeck()
+void BasicDeck::CreateDeck()                            //Tee normaali pakka
 {
     this->totalCards = 0;
-    //create deck
-    for(int y = 0; y <= this->maat; y++)
+    for(int y = 0; y <= this->maat; y++)                //Täytä tyhjä tai vajaa pakka korteilla
     {
         for(int i = this->startingCard; i <= this->cards+this->startingCard-1; i++)
         {
@@ -42,7 +41,7 @@ void BasicDeck::CreateDeck()
         }
     }
 }
-void BasicDeck::CreateDeck(int sCard, int mCard, int mMaat)
+void BasicDeck::CreateDeck(int sCard, int mCard, int mMaat) //Tee customoitu pakka
 {
     this->maat = mMaat-1;
     this->cards = mCard;
@@ -76,21 +75,21 @@ void BasicDeck::CreateDeck(int sCard, int mCard, int mMaat)
     }
 }
 
-int BasicDeck::CheckMaa(int cCard)
+int BasicDeck::CheckMaa(int cCard)                  //Siirrä pakan maa
 {
     int tempCard = this->cardbox[cCard][0];
     this->cardbox[cCard][0] = -1;
     return tempCard;
 }
 
-int BasicDeck::CheckCard(int cCard)
+int BasicDeck::CheckCard(int cCard)                 //Siirrä pakan kortin numeroarvo
 {
     int tempCard = this->cardbox[cCard][1];
     this->cardbox[cCard][1] = -1;
     return tempCard;
 }
 
-int BasicDeck::RandomCard()
+int BasicDeck::RandomCard()                         //Arvo uusi kortti
 {
   while(true)
     {
@@ -100,11 +99,10 @@ int BasicDeck::RandomCard()
         break;
         }
     }
-  //ShowDeck();
   return this->randomCard;
 }
 
-void BasicDeck::ShowDeck()
+void BasicDeck::ShowDeck()                          //Työkalu
 {
     for(int i = 0; i < this->MAXCARD; i++)
     {
@@ -112,7 +110,7 @@ void BasicDeck::ShowDeck()
     }
 }
 
-float BasicDeck::GiveAverage()
+float BasicDeck::GiveAverage()                      //Kerro keskiarvo pakassa olevista korteista
 {
     float average = 0;
     int cardsInGame = 0;

@@ -3,14 +3,14 @@
 #include <ostream>
 using namespace std;
 
-void Card::drawTopPart(int times)
+void Card::drawTopPart(int times)                       //Piirrä kortin yläosa
 {
     for(int i = times; i > 0; i--)
     {
         cout << "  ___________ ";
     }
 }
-void Card::drawBottomPart(int times, bool played)
+void Card::drawBottomPart(int times, bool played)       //Piirrä kortin alaosa
 {
     for(int i = times; i > 0; i--)
     {
@@ -24,7 +24,7 @@ void Card::drawBottomPart(int times, bool played)
         }
     }
 }
-void Card::drawSidePart(int cardlist[5][2], int times)
+void Card::drawSidePart(int times)                      //Piirrä kortin tyhjä keskiosa
 {
 
     for(int i = times; i > 0; i--)
@@ -32,7 +32,7 @@ void Card::drawSidePart(int cardlist[5][2], int times)
         cout << " |           |";
     }
 }
-void Card::drawMiddlePart(int cardlist[5][2], int times)
+void Card::drawMiddlePart(int cardlist[5][2], int times)    //Piirrä kortin keskiosa
 {
 
     for(int i = times; i > 0; i--)
@@ -91,14 +91,14 @@ void Card::drawMiddlePart(int cardlist[5][2], int times)
         }
     }
 }
-void Card::drawChangeLine(int times)
+void Card::drawChangeLine(int times)                        //Piirrä enter
 {
     for(int i = times; i > 0; i--)
     {
         cout << endl;
     }
 }
-void Card::drawNumberPart(int cardlist[5][2],int times)
+void Card::drawNumberPart(int cardlist[5][2],int times)     //Piirrä kortin numero-osa
 {
     for(int i = times; i > 0; i--)
     {
@@ -119,7 +119,7 @@ void Card::drawNumberPart(int cardlist[5][2],int times)
         }
     }
 }
-void Card::drawMaa(int cardlist[5][2],int times)
+void Card::drawMaa(int cardlist[5][2],int times)        //Piirrä kortin maa
 {
     for(int i = times; i > 0; i--)
     {
@@ -164,7 +164,7 @@ void Card::drawMaa(int cardlist[5][2],int times)
         }
     }
 }
-void Card::showCard(int cardlist[5][2], int total, bool played)
+void Card::showCard(int cardlist[5][2], int total, bool played) //Piirrä piirrettävät kortit
 {
             drawTopPart(total);
             drawChangeLine(1);
@@ -172,13 +172,13 @@ void Card::showCard(int cardlist[5][2], int total, bool played)
             drawChangeLine(1);
             drawNumberPart(cardlist,total);
             drawChangeLine(1);
-            drawSidePart(cardlist,total);
+            drawSidePart(total);
             drawChangeLine(1);
             drawMiddlePart(cardlist,total);
             drawChangeLine(1);
-            drawSidePart(cardlist,total);
+            drawSidePart(total);
             drawChangeLine(1);
-            drawSidePart(cardlist,total);
+            drawSidePart(total);
             drawChangeLine(1);
             drawBottomPart(total, played);
             drawChangeLine(1);

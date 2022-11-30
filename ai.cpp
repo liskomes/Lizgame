@@ -7,7 +7,6 @@ using namespace std;
 AI::AI()
 {
     double temp = 0.4 * ((rand() % 20) / 10.00);        //Lisää AI:lle hieman persoonaa
-    //this->risk_g = (rand() % 100) / 250.00;
     this->risk = 0.7 + temp;                            //"Riski"
 }
 bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card, float average)

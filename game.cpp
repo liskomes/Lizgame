@@ -16,7 +16,7 @@ using namespace std;
 using namespace std::this_thread;
 using namespace std::chrono;
 
-Game::Game()    //Hae peruspakan tiedot
+Game::Game()                                        //Hae peruspakan tiedot
 {
     this->MAXCARD = Bdeck.GiveMTOTAL();
     this->MAXMAA = Bdeck.GiveMMAAT();
@@ -24,7 +24,7 @@ Game::Game()    //Hae peruspakan tiedot
     this->endCard = Bdeck.GiveMCARDS();
 }
 
-void Game::checkInput()
+void Game::checkInput()                             //Tarkasta onko input numero
 {
     if(cin.fail())
     {
@@ -33,7 +33,7 @@ void Game::checkInput()
     }
 }
 
-void Game::Settings()
+void Game::Settings()                               //Tee uusi pakka
 {
     cout << "   Uuden pakan luominen;" << endl;
     cout << "   -Valitse pakkaasi maita 1-8" << endl;
@@ -78,7 +78,7 @@ void Game::Settings()
     }
 }
 
-void Game::StartGame()
+void Game::StartGame()                                    //Aloita peli
 {
     while(true)
     {
@@ -202,7 +202,7 @@ void Game::AITurn()                                                     //AI:n v
     UI.drawArrow(65,1);
 }
 
-void Game::showResults()
+void Game::showResults()                    //Näytä lopulliset kierroksen tulokset ja kortit
 {
     CardGraph.showCard(this->playedCards, this->total, false);
     UI.ShowResults(this->totalSum,true);
@@ -210,7 +210,7 @@ void Game::showResults()
     UI.ShowResults(this->AItotalSum,false);
 }
 
-void Game::showDeckBox()
+void Game::showDeckBox()                    //Näytä korttipakka
 {
     Bdeck.CreateDeck();
     int total = 0;
@@ -233,7 +233,7 @@ void Game::showDeckBox()
      Bdeck.CreateDeck();
 }
 
-void Game::FinalResults()
+void Game::FinalResults()                   //Tarkasta kierroksen voittaja
 {
     this->totalSum = this->tavoiteNumero - this->totalSum;
     this->AItotalSum = this->tavoiteNumero - this->AItotalSum;

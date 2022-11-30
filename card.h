@@ -9,7 +9,7 @@ public:
     void showCard(int cardlist[5][2], int total, bool played);
     void drawTopPart(int times);
     void drawBottomPart(int times, bool played);
-    void drawSidePart(int cardlist[5][2],int times);
+    void drawSidePart(int times);
     void drawMiddlePart(int cardlist[5][2],int times);
     void drawMaa(int cardlist[5][2],int times);
     void drawChangeLine(int times);
