@@ -53,6 +53,10 @@ void Card::drawMiddlePart(int cardlist[5][2], int times)
         {
             cout << " |     J     |";
         }
+        else if (cardlist[i-1][0] == -1)
+        {
+            cout << " | POISTETTU |";
+        }
         else
         {
             cout << " |           |";
@@ -75,6 +79,10 @@ void Card::drawNumberPart(int cardlist[5][2],int times)
             if (cardlist[i-1][0] >= 10)
             {
                 cout << " | " << cardlist[i-1][0] << "        |";
+            }
+            else if (cardlist[i-1][0] == -1)
+            {
+                cout << " | " << "P" << "         |";
             }
             else
             {
@@ -104,6 +112,26 @@ void Card::drawMaa(int cardlist[5][2],int times)
             else if (cardlist[i-1][1] == 3)
             {
                 cout << " | pata      |";
+            }
+            else if (cardlist[i-1][1] == 4)
+            {
+                cout << " | sahti     |";
+            }
+            else if (cardlist[i-1][1] == 5)
+            {
+                cout << " | hurtta    |";
+            }
+            else if (cardlist[i-1][1] == 6)
+            {
+                cout << " | sika      |";
+            }
+            else if (cardlist[i-1][1] == 7)
+            {
+                cout << " | kato      |";
+            }
+            else
+            {
+                cout << " |           |";
             }
         }
     }

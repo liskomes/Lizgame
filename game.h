@@ -10,19 +10,19 @@
 #include <iterator>
 #include "basicdeck.h"
 
+//#define MAXCARD 52                  //Kortit pakassa
+//#define MAXMAA 4                    //maat
+#define MAXCARDS 5                  //Käsikortit
+
 using namespace std;
 
 class Game
 {
 private:
-#define MAXCARD 52                  //Kortit pakassa
-#define MAXMAA 4                    //maat
-#define MAXCARDS 5                  //Käsikortit
-
+    int MAXCARD;
+    int MAXMAA;
     string type_number = "0";           //input
     int type_number2 = 0;               //input
-    int playedCards[MAXCARDS][2];       //pelatut kortit
-    int AICards[MAXCARDS][2];           //AI pelatut kortit
     int tavoiteNumero = 21;             //tavoiteltu numero
     int points[2] = {0,0};              //Pisteet
 
@@ -35,6 +35,8 @@ private:
     Card CardGraph;                     //Kortin "grafiikka"
     AI AI1;                             //Vastustaja
     Graph UI;                           //Pelin "grafiikka"
+    int playedCards[MAXCARDS][2];
+    int AICards[MAXCARDS][2];
 public:
     Game();
     void StartGame();
@@ -47,6 +49,7 @@ public:
     void SaveGame();
     void LoadGame();
     void showDeckBox();
+    void Settings();
 };
 
 #endif // GAME_H

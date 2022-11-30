@@ -6,26 +6,72 @@ using namespace std;
 
 BasicDeck::BasicDeck()
 {
-    //this->maat = 3;
-    //this->cards = 13;
+    this->maat = 3;
+    this->cards = 13;
+    this->startingCard = 1;
+    this->totalCards = (this->maat + 1) * this->cards;
+    this->MAXCARD = (this->maat + 1) * this->cards;
     this->CreateDeck();
-    //this->totalCards = (this->maat + 1) * this->cards;
-    //this->MAXCARD = (this->maat + 1) * this->cards;
-    //Deck();
 }
 
 void BasicDeck::CreateDeck()
 {
     this->totalCards = 0;
-
     //create deck
     for(int y = 0; y <= this->maat; y++)
     {
-        for(int i = 1; i <= this->cards; i++)
+        for(int i = this->startingCard; i <= this->cards+this->startingCard-1; i++)
         {
             this->cardbox[this->totalCards][0] = i;
             this->cardbox[this->totalCards][1] = y;
             this->totalCards++;
+        }
+    }
+
+    while(true)
+    {
+        if (this->totalCards < MAXDECK)
+        {
+            this->cardbox[this->totalCards][0] = -1;
+            this->cardbox[this->totalCards][1] = -1;
+            this->totalCards++;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+void BasicDeck::CreateDeck(int sCard, int mCard, int mMaat)
+{
+    this->maat = mMaat-1;
+    this->cards = mCard;
+    this->startingCard = sCard;
+    this->MAXCARD = (this->maat + 1) * this->cards;
+    this->totalCards = 0;
+
+    //create deck
+    for(int y = 0; y <= this->maat; y++)
+    {
+        for(int i = this->startingCard; i <= this->cards+this->startingCard-1; i++)
+        {
+            this->cardbox[this->totalCards][0] = i;
+            this->cardbox[this->totalCards][1] = y;
+            this->totalCards++;
+        }
+    }
+
+    while(true)
+    {
+        if (this->totalCards < MAXDECK)
+        {
+            this->cardbox[this->totalCards][0] = -1;
+            this->cardbox[this->totalCards][1] = -1;
+            this->totalCards++;
+        }
+        else
+        {
+            break;
         }
     }
 }

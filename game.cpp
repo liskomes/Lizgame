@@ -17,26 +17,58 @@ using namespace std::chrono;
 
 Game::Game()
 {
+    this->MAXCARD = Bdeck.GiveMTOTAL();
+    this->MAXMAA = Bdeck.GiveMMAAT();
+    //cout << MAXCARD << endl;
+    //cout << MAXMAA << endl;
+}
+
+void Game::Settings()
+{
+    cout << "   Maat: ";
+    cin >> this->type_number2;
+    this->MAXMAA = this->type_number2;
+    cout << "   Aloituskortti: ";
+    cin >> this->type_number2;
+    int startCard = type_number2;
+    cout << "   Kortit maata kohden: ";
+    cin >> this->type_number2;
+    int endCard = type_number2;
+    if ((this->MAXMAA*endCard <= 52) && (MAXMAA <= 8) && (MAXMAA > 0))
+    {
+        Bdeck.CreateDeck(startCard, endCard, this->MAXMAA);
+        this->MAXCARD = Bdeck.GiveMTOTAL();
+        this->MAXMAA = Bdeck.GiveMMAAT();
+        cout << "   Pakka luotu onnistuneesti" << endl;
+        //cout << MAXMAA << endl;
+        //Bdeck.ShowDeck();
+    }
+    else
+    {
+        cout << "   Pakan luontia ei suoritettu. Pakassa saattoi olla liikaa kortteja" << endl;
+        this->MAXCARD = Bdeck.GiveMTOTAL();
+        this->MAXMAA = Bdeck.GiveMMAAT();
+    }
 }
 
 void Game::StartGame()
 {
     while(true)
     {
-        UI.showOptions(points);                     //Uusi kortti yms.
+        UI.showOptions(this->points);                     //Uusi kortti yms.
         cout << "   Valitse: ";
-        cin >> type_number;                         //Valinta
-        if (type_number == "9")
+        cin >> this->type_number;                         //Valinta
+        if (this->type_number == "9")
         {
-            points[0] = 0;                          //Nollaa pakka ja pisteet
-            points[1] = 0;
+            this->points[0] = 0;                          //Nollaa pakka ja pisteet
+            this->points[1] = 0;
             FinalResults();
             Menu();
         }
-        if (type_number == "1")
+        if (this->type_number == "1")
         {
             PlayerTurn();                           //Pelaajan vuoro
-            total = 0;
+            this->total = 0;
             AITurn();                               //AI:n vuoro
 
             showResults();                          //Näytä kädet ja tulokset
@@ -45,11 +77,11 @@ void Game::StartGame()
 
             ShowWinner();                           //Tarkista voittaja
         }
-        if (type_number == "7")                     //Tallenna peli
+        if (this->type_number == "7")                     //Tallenna peli
         {
             SaveGame();
         }
-        if (type_number == "8")                     //Lataa peli
+        if (this->type_number == "8")                     //Lataa peli
         {
             LoadGame();
         }
@@ -58,20 +90,20 @@ void Game::StartGame()
 
 void Game::ShowWinner()             //Tarkasta jos toinen on saanut 10 pistettä
 {
-    if (points[0] >= 10)
+    if (this->points[0] >= 10)
     {
-        points[0] = 0;
-        points[1] = 0;
+        this->points[0] = 0;
+        this->points[1] = 0;
         FinalResults();
         UI.drawArrow(65,1);
         cout << "          Onneksi olkoon, voitit pelin!" << endl;
         UI.drawArrow(65,1);
         Menu();
     }
-    else if (points[1] >= 10)
+    else if (this->points[1] >= 10)
     {
-        points[0] = 0;
-        points[1] = 0;
+        this->points[0] = 0;
+        this->points[1] = 0;
         UI.drawArrow(65,1);
         cout << "          Nyt ei tullut voittoa!" << endl;
         UI.drawArrow(65,1);
@@ -83,35 +115,35 @@ void Game::PlayerTurn()                                                 //Pelaaj
 {
     for(int i = 0; i < MAXCARDS; i++)
     {
-        random_card = Bdeck.RandomCard();
+        this->random_card = Bdeck.RandomCard();
 
-        playedCards[total][0] = Bdeck.CheckMaa(random_card);            //Siirrä kortti pelattujen listaan
-        playedCards[total][1] = Bdeck.CheckCard(random_card);
+        this->playedCards[this->total][0] = Bdeck.CheckMaa(this->random_card);            //Siirrä kortti pelattujen listaan
+        this->playedCards[this->total][1] = Bdeck.CheckCard(this->random_card);
 
-        CardGraph.showCard(playedCards, total+1, true);                 //Näytä kortit
+        CardGraph.showCard(this->playedCards, this->total+1, true);                 //Näytä kortit
 
-        UI.showCardOptions(totalSum, playedCards[total][0],points);     //Näytä vaihtoehdot. Lisää tai vähennä
+        UI.showCardOptions(this->totalSum, this->playedCards[this->total][0],this->points);     //Näytä vaihtoehdot. Lisää tai vähennä
 
         while(true)
         {
             cout << "   Valitse: ";
-            cin >> type_number;                                         //Valinta
-            if (type_number == "1")                                     //1: vähennä, 2: lisää
+            cin >> this->type_number;                                         //Valinta
+            if (this->type_number == "1")                                     //1: vähennä, 2: lisää
             {
-                totalSum += playedCards[total][0];
-                cout << "  --PLUS-- Tulos: " << totalSum << " / Siirto: " << total+1 << endl << endl;
+                this->totalSum += this->playedCards[this->total][0];
+                cout << "  --PLUS-- Tulos: " << this->totalSum << " / Siirto: " << this->total+1 << endl << endl;
                 break;
             }
-            else if (type_number == "2")
+            else if (this->type_number == "2")
             {
-                totalSum -= playedCards[total][0];
-                cout << "  --MIINUS-- Tulos: " << totalSum<< " / Siirto: " << total+1 << endl << endl;
+                this->totalSum -= this->playedCards[this->total][0];
+                cout << "  --MIINUS-- Tulos: " << this->totalSum<< " / Siirto: " << this->total+1 << endl << endl;
                 break;
             }
 
         }
 
-        total += 1;
+        this->total += 1;
     }
 }
 
@@ -122,33 +154,33 @@ void Game::AITurn()                                                     //AI:n v
     for(int i = 0; i < MAXCARDS; i++)
     {
         sleep_for(0.5s);
-        random_card = Bdeck.RandomCard();
+        this->random_card = Bdeck.RandomCard();
 
-        AICards[total][0] = Bdeck.CheckMaa(random_card);
-        AICards[total][1] = Bdeck.CheckCard(random_card);
+        this->AICards[this->total][0] = Bdeck.CheckMaa(this->random_card);
+        this->AICards[this->total][1] = Bdeck.CheckCard(this->random_card);
 
-        CardGraph.showCard(AICards, total+1, true);
+        CardGraph.showCard(this->AICards, this->total+1, true);
 
-        if (AI1.NegPosCalc(tavoiteNumero, AItotalSum, total, AICards[total][0],Bdeck.GiveAverage()))
+        if (AI1.NegPosCalc(this->tavoiteNumero, this->AItotalSum, this->total, this->AICards[total][0],Bdeck.GiveAverage()))
         {
-            AItotalSum -= AICards[total][0];
+            this->AItotalSum -= this->AICards[total][0];
         }
         else
         {
-            AItotalSum += AICards[total][0];
+            this->AItotalSum += this->AICards[total][0];
         }
-        sleep_for(1.5s);
-        total += 1;
+        sleep_for(1s);
+        this->total += 1;
     }
     UI.drawArrow(65,1);
 }
 
 void Game::showResults()
 {
-    CardGraph.showCard(playedCards, total, false);
-    UI.ShowResults(totalSum,true);
-    CardGraph.showCard(AICards, total, false);
-    UI.ShowResults(AItotalSum,false);
+    CardGraph.showCard(this->playedCards, this->total, false);
+    UI.ShowResults(this->totalSum,true);
+    CardGraph.showCard(this->AICards, this->total, false);
+    UI.ShowResults(this->AItotalSum,false);
 }
 
 void Game::showDeckBox()
@@ -158,68 +190,68 @@ void Game::showDeckBox()
 
         for(int i = 0; i < MAXCARD; i++)
         {
-            AICards[total][0] = Bdeck.CheckMaa(i);
-            AICards[total][1] = Bdeck.CheckCard(i);
+            this->AICards[total][0] = Bdeck.CheckMaa(i);
+            this->AICards[total][1] = Bdeck.CheckCard(i);
             total++;
 
-            if ((total > 5) or (i == 51))
+            if ((total > 5) or (i == MAXCARD-1))
             {
-                CardGraph.showCard(AICards, total, false);
+                CardGraph.showCard(this->AICards, total, false);
                 total = 0;
             }
 
         }
-     points[0] = 0;
-     points[1] = 0;
+     this->points[0] = 0;
+     this->points[1] = 0;
      Bdeck.CreateDeck();
 }
 
 void Game::FinalResults()
 {
-    totalSum = tavoiteNumero - totalSum;
-    AItotalSum = tavoiteNumero - AItotalSum;
+    this->totalSum = this->tavoiteNumero - this->totalSum;
+    this->AItotalSum = this->tavoiteNumero - this->AItotalSum;
 
-    if (totalSum < 0)
+    if (this->totalSum < 0)
     {
-        totalSum*=-1;
+        this->totalSum*=-1;
     }
-    if (AItotalSum < 0)
+    if (this->AItotalSum < 0)
     {
-        AItotalSum*=-1;
+        this->AItotalSum*=-1;
     }
 
-    if (totalSum < AItotalSum)
+    if (this->totalSum < this->AItotalSum)
     {
-        points[0] += 1;
+        this->points[0] += 1;
     }
-    else if (totalSum == AItotalSum)
+    else if (this->totalSum == this->AItotalSum)
     {
     }
     else
     {
-        points[1] += 1;
+        this->points[1] += 1;
     }
 
-    total = 0;
-    totalSum = 0;
-    AItotalSum = 0;
+    this->total = 0;
+    this->totalSum = 0;
+    this->AItotalSum = 0;
 
     Bdeck.CreateDeck();
 }
 
 void Game::Menu()
 {
-    int type_number2 = 0;
     cout << "   _________________________________________________________________ " << endl;
     cout << "  |                                                                 |" << endl;
     cout << "  |                          1: Aloita                              |" << endl;
     cout << "  |                          2: Katsele pakkaa                      |" << endl;
-    cout << "  |                          3: Lataa peli                          |" << endl;
+    cout << "  |                          3: Muokkaa pakkaa                      |" << endl;
+    cout << "  |                          4: Lataa peli                          |" << endl;
     cout << "  |                          Muu: Lopeta                            |" << endl;
     cout << "  |_________________________________________________________________|" << endl;
     cout << "   Valitse: ";
-    cin >> type_number2;
-    switch(type_number2)
+    cin >> this->type_number2;
+    switch(this->type_number2)
     {
     case 1:
         this->StartGame();
@@ -229,9 +261,13 @@ void Game::Menu()
         this->Menu();
         break;
     case 3:
+        this->Settings();
+        this->Menu();
+        break;
+    case 4:
         this->LoadGame();
         Bdeck.CreateDeck();
-        if ((points[0] > 0) or (points[1] > 0))
+        if ((this->points[0] > 0) or (this->points[1] > 0))
         {
             this->StartGame();
         }
@@ -240,7 +276,7 @@ void Game::Menu()
             this->Menu();
         }
         break;
-    case 4:
+    case 5:
         return;
         break;
     default:
@@ -263,9 +299,9 @@ void Game::LoadGame()
         tiedosto >> omatpisteet;
         tiedosto >> vihollispisteet;
         tiedosto.close();
-        points[0] = omatpisteet;
-        points[1] = vihollispisteet;
-        if ((points[0] > 0) or (points[1] > 0))
+        this->points[0] = omatpisteet;
+        this->points[1] = vihollispisteet;
+        if ((this->points[0] > 0) or (this->points[1] > 0))
         {
             cout << "   " << name << " avattu: " << omatpisteet << "/" << vihollispisteet << endl;
         }
@@ -290,7 +326,7 @@ void Game::SaveGame()
     tiedosto.open(name);
     if (tiedosto.is_open())
     {
-        tiedosto << points[0] << " " << points[1] << endl;
+        tiedosto << this->points[0] << " " << this->points[1] << endl;
         tiedosto.close();
         cout << "   " << name << " tallennettu" << endl;
     }
