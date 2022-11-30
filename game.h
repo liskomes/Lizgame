@@ -25,6 +25,8 @@ private:
     int type_number2 = 0;               //input
     int tavoiteNumero = 21;             //tavoiteltu numero
     int points[2] = {0,0};              //Pisteet
+    int startCard;
+    int endCard;
 
     int random_card = 0;                //satunnainen luku
 
@@ -50,6 +52,7 @@ public:
     void LoadGame();
     void showDeckBox();
     void Settings();
+    void checkInput();
 };
 
 #endif // GAME_H

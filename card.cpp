@@ -57,6 +57,34 @@ void Card::drawMiddlePart(int cardlist[5][2], int times)
         {
             cout << " | POISTETTU |";
         }
+        else if (cardlist[i-1][0] == 14)
+        {
+            cout << " |     R     |";
+        }
+        else if (cardlist[i-1][0] == 15)
+        {
+            cout << " |     G     |";
+        }
+        else if (cardlist[i-1][0] == 16)
+        {
+            cout << " |    JGQ    |";
+        }
+        else if (cardlist[i-1][0] == 17)
+        {
+            cout << " |    QGK    |";
+        }
+        else if (cardlist[i-1][0] == 18)
+        {
+            cout << " |    KGR    |";
+        }
+        else if (cardlist[i-1][0] == 19)
+        {
+            cout << " |    C++    |";
+        }
+        else if (cardlist[i-1][0] == 20)
+        {
+            cout << " |   JOKER   |";
+        }
         else
         {
             cout << " |           |";

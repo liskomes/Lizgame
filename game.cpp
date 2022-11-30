@@ -10,33 +10,57 @@
 #include "basicdeck.h"
 #include <thread>
 #include <chrono>
+#include <stdlib.h>
 
 using namespace std;
 using namespace std::this_thread;
 using namespace std::chrono;
 
-Game::Game()
+Game::Game()    //Hae peruspakan tiedot
 {
     this->MAXCARD = Bdeck.GiveMTOTAL();
     this->MAXMAA = Bdeck.GiveMMAAT();
-    //cout << MAXCARD << endl;
-    //cout << MAXMAA << endl;
+    this->startCard = Bdeck.GiveMSTARTCARD();
+    this->endCard = Bdeck.GiveMCARDS();
+}
+
+void Game::checkInput()
+{
+    if(cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
 }
 
 void Game::Settings()
 {
+    cout << "   Uuden pakan luominen;" << endl;
+    cout << "   -Valitse pakkaasi maita 1-8" << endl;
+    cout << "   -Valitse kortti josta pakkasi alkaa, mieluusti 1-15" << endl;
+    cout << "   -Valitse korttilukema maata kohden. Esim: valitset aloituskortiksi 4," << endl;
+    cout << "    valitset sitten kortteja maata kohden 4; Pakkaan tulee yhteen maahan" << endl;
+    cout << "    kortit 4,5,6,7." << endl;
+    cout << "   -Kortteja tulee olla pakassa 12-52" << endl << endl;
+
     cout << "   Maat: ";
     cin >> this->type_number2;
+    checkInput();
     this->MAXMAA = this->type_number2;
+
     cout << "   Aloituskortti: ";
     cin >> this->type_number2;
-    int startCard = type_number2;
+    checkInput();
+    this->startCard = type_number2;
+
     cout << "   Kortit maata kohden: ";
     cin >> this->type_number2;
-    int endCard = type_number2;
-    if ((this->MAXMAA*endCard <= 52) && (MAXMAA <= 8) && (MAXMAA > 0))
+    checkInput();
+    this->endCard = type_number2;
+
+    if ((this->MAXMAA*this->endCard <= 52) && (this->MAXMAA <= 8) && (this->MAXMAA > 0) && (this->MAXMAA*this->endCard >= 12) && (this->startCard+this->endCard <= 20))
     {
-        Bdeck.CreateDeck(startCard, endCard, this->MAXMAA);
+        Bdeck.CreateDeck(this->startCard, this->endCard, this->MAXMAA);
         this->MAXCARD = Bdeck.GiveMTOTAL();
         this->MAXMAA = Bdeck.GiveMMAAT();
         cout << "   Pakka luotu onnistuneesti" << endl;
@@ -45,9 +69,12 @@ void Game::Settings()
     }
     else
     {
-        cout << "   Pakan luontia ei suoritettu. Pakassa saattoi olla liikaa kortteja" << endl;
+        cout << "   Pakan luontia ei suoritettu. Pakassa saattoi olla liikaa kortteja tai" << endl;
+        cout << "   pakassa ei ollut tarpeeksi kortteja. Kortteja tulisi olla 12-52." << endl;
         this->MAXCARD = Bdeck.GiveMTOTAL();
         this->MAXMAA = Bdeck.GiveMMAAT();
+        this->startCard = Bdeck.GiveMSTARTCARD();
+        this->endCard = Bdeck.GiveMCARDS();
     }
 }
 
@@ -247,10 +274,11 @@ void Game::Menu()
     cout << "  |                          2: Katsele pakkaa                      |" << endl;
     cout << "  |                          3: Muokkaa pakkaa                      |" << endl;
     cout << "  |                          4: Lataa peli                          |" << endl;
-    cout << "  |                          Muu: Lopeta                            |" << endl;
+    cout << "  |                          5: Lopeta                              |" << endl;
     cout << "  |_________________________________________________________________|" << endl;
     cout << "   Valitse: ";
     cin >> this->type_number2;
+    checkInput();
     switch(this->type_number2)
     {
     case 1:
@@ -277,17 +305,21 @@ void Game::Menu()
         }
         break;
     case 5:
-        return;
-        break;
+        exit(0);
     default:
-        return;
+        this->Menu();
     }
+    this->type_number2 = 0;
+    this->Menu();
 }
 
 void Game::LoadGame()
 {
     int omatpisteet;
     int vihollispisteet;
+    int maxM;
+    int maxC;
+    int startC;
     ifstream tiedosto;
     cout << "   Anna tallennuksesi nimi: ";
     string name;
@@ -298,12 +330,20 @@ void Game::LoadGame()
     {
         tiedosto >> omatpisteet;
         tiedosto >> vihollispisteet;
+        tiedosto >> maxC;
+        tiedosto >> maxM;
+        tiedosto >> startC;
         tiedosto.close();
         this->points[0] = omatpisteet;
         this->points[1] = vihollispisteet;
+        Bdeck.CreateDeck(startC, maxC, maxM);
+        this->MAXCARD = Bdeck.GiveMTOTAL();
+        this->MAXMAA = Bdeck.GiveMMAAT();
+        this->startCard = Bdeck.GiveMSTARTCARD();
+        this->endCard = Bdeck.GiveMCARDS();
         if ((this->points[0] > 0) or (this->points[1] > 0))
         {
-            cout << "   " << name << " avattu: " << omatpisteet << "/" << vihollispisteet << endl;
+            cout << "   " << name << " avattu: " << omatpisteet << "/" << vihollispisteet << "/" << maxC << "/" << maxM << "/" << startC << endl;
         }
         else
         {
@@ -326,7 +366,7 @@ void Game::SaveGame()
     tiedosto.open(name);
     if (tiedosto.is_open())
     {
-        tiedosto << this->points[0] << " " << this->points[1] << endl;
+        tiedosto << this->points[0] << " " << this->points[1] << " " << this->endCard << " " << this->MAXMAA << " " << this->startCard << endl;
         tiedosto.close();
         cout << "   " << name << " tallennettu" << endl;
     }

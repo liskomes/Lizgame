@@ -6,16 +6,17 @@ using namespace std;
 
 AI::AI()
 {
-    double temp = 0.4 * ((rand() % 20) / 10.00);
-    this->risk_g = (rand() % 100) / 250.00;
-    this->risk = 0.7 + temp;
+    double temp = 0.4 * ((rand() % 20) / 10.00);        //Lisää AI:lle hieman persoonaa
+    //this->risk_g = (rand() % 100) / 250.00;
+    this->risk = 0.7 + temp;                            //"Riski"
 }
 bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card, float average)
 {
     average *=(5-total)-1;
-    if (average > 6.5) average*=0.5*this->risk;
+    if (average > 6.5) average*=0.65*this->risk;        //average*kerroin (kerroin 1 tarkottaisi keskiarvon mukaista tavoitenumeroa läheltä lopullista tavoitenumeroa*jäljellä olevat kierrokset)
+    cout << average << endl;
 
-    this->tavoite1 = tavoite-average;
+    this->tavoite1 = tavoite-average;                   //Laske vaihtoehdot
     this->tavoite2 = tavoite+average;
     this->plus = nykyinen + card;
     this->miinus = nykyinen - card;
@@ -26,7 +27,7 @@ bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card, float averag
 
     float index = 1000;
 
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 4; i++)                          //Tarkasta vaihtoehdot
     {
         if ((index > this->vaihtoehdot[i]))
         {
@@ -43,7 +44,7 @@ bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card, float averag
         }
     }
 
-    if ((index >= 0) && (index < 2))
+    if ((index >= 0) && (index < 2))                    //Toteuta paras vaihtoehto
     {
         cout << "  --MIINUS-- Tulos: " << nykyinen - card << " / Siirto: " << total+1 << endl << endl;
         return true;
