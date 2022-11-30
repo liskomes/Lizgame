@@ -13,7 +13,6 @@ bool AI::NegPosCalc(int tavoite, int nykyinen, int total, int card, float averag
 {
     average *=(5-total)-1;
     if (average > 6.5) average*=0.65*this->risk;        //average*kerroin (kerroin 1 tarkottaisi keskiarvon mukaista tavoitenumeroa läheltä lopullista tavoitenumeroa*jäljellä olevat kierrokset)
-    cout << average << endl;
 
     this->tavoite1 = tavoite-average;                   //Laske vaihtoehdot
     this->tavoite2 = tavoite+average;

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-BasicDeck::BasicDeck()
+BasicDeck::BasicDeck() : Deck()
 {
     this->maat = 3;                                     //Pakassa olevat maat
     this->cards = 13;                                   //Pakassa olevat kortit
