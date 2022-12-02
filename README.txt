@@ -10,7 +10,8 @@ tekstillä "UUSI".
 
 Viidennen kortin jälkeen saat lopputuloksen, joka toivon mukaan on lähellä lukua 21.
 
-Kierroksesi jälkeen alkaa AI:n vuoro. AI pelaa myös viisi korttia, ja AI:n kierrosten jälkeen lasketaan tulokset.
+Kierroksesi jälkeen alkaa AI:n vuoro. AI pelaa myös viisi korttia, ja AI:n kierrosten jälkeen lasketaan tulokset. Tasapelistä
+ei jaeta pisteitä.
 
 Ässä on aina numero 1, sillä voit tehdä customoidun pakan ja lisätä kortteja aina numeroon 20 asti.
 
