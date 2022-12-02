@@ -22,7 +22,7 @@ int Deck::GiveMMAAT()
 
 int Deck::GiveMSTARTCARD()
 {
-    return this->cards+this->startingCard;
+    return this->startingCard;
 }
 
 int Deck::GiveMTOTAL()

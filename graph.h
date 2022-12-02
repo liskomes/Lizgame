@@ -12,6 +12,8 @@ public:
     void showOptions(int points[2]);
     void showCardOptions(int sum, int num, int points[2]);
     void ShowResults(int sum, bool player);
+    void modifyDeck();
+    void showMainMenu();
     void drawNumber(int num);
     void drawNumber2(int num);
 

@@ -23,6 +23,33 @@ void Graph::showOptions(int points[2])
     drawLine(65,1,false);
 }
 
+void Graph::modifyDeck()
+{
+    cout << "   Uuden pakan luominen;" << endl;
+    cout << "   -Valitse pakkaasi maita 1-8" << endl;
+    cout << "   -Valitse kortti josta pakkasi alkaa, mieluusti 1-15" << endl;
+    cout << "   -Valitse korttilukema maata kohden. Esim: valitset aloituskortiksi 4," << endl;
+    cout << "    valitset sitten kortteja maata kohden 4; Pakkaan tulee yhteen maahan" << endl;
+    cout << "    kortit 4,5,6,7." << endl;
+    cout << "   -Kortteja tulee olla pakassa 12-52" << endl << endl;
+}
+
+void Graph::showMainMenu()
+{
+    cout << "   _________________________________________________________________ " << endl;
+    cout << "  |                                                                 |" << endl;
+    cout << "  |                          1: Aloita                              |" << endl;
+    cout << "  |                                                                 |" << endl;
+    cout << "  |                          2: Katsele pakkaa                      |" << endl;
+    cout << "  |                          3: Muokkaa pakkaa                      |" << endl;
+    cout << "  |                          4: Palauta normaali pakka              |" << endl;
+    cout << "  |                                                                 |" << endl;
+    cout << "  |                          5: Lataa peli                          |" << endl;
+    cout << "  |                                                                 |" << endl;
+    cout << "  |                          9: Lopeta                              |" << endl;
+    cout << "  |_________________________________________________________________|" << endl;
+}
+
 void Graph::showCardOptions(int sum, int num, int points[2])
 {
     drawLine(65,1,true);

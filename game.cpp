@@ -35,13 +35,7 @@ void Game::checkInput()                             //Tarkasta onko input numero
 
 void Game::Settings()                               //Tee uusi pakka
 {
-    cout << "   Uuden pakan luominen;" << endl;
-    cout << "   -Valitse pakkaasi maita 1-8" << endl;
-    cout << "   -Valitse kortti josta pakkasi alkaa, mieluusti 1-15" << endl;
-    cout << "   -Valitse korttilukema maata kohden. Esim: valitset aloituskortiksi 4," << endl;
-    cout << "    valitset sitten kortteja maata kohden 4; Pakkaan tulee yhteen maahan" << endl;
-    cout << "    kortit 4,5,6,7." << endl;
-    cout << "   -Kortteja tulee olla pakassa 12-52" << endl << endl;
+    UI.modifyDeck();
 
     cout << "   Maat: ";
     cin >> this->type_number2;
@@ -64,8 +58,6 @@ void Game::Settings()                               //Tee uusi pakka
         this->MAXCARD = Bdeck.GiveMTOTAL();
         this->MAXMAA = Bdeck.GiveMMAAT();
         cout << "   Pakka luotu onnistuneesti" << endl;
-        //cout << MAXMAA << endl;
-        //Bdeck.ShowDeck();
     }
     else
     {
@@ -176,8 +168,8 @@ void Game::PlayerTurn()                                                 //Pelaaj
 
 void Game::AITurn()                                                     //AI:n vuoro
 {
+    UI.drawLine(65,1,true);
     cout << "   AI:n vuoro" << endl;
-    UI.drawArrow(65,1);
     for(int i = 0; i < MAXCARDS; i++)
     {
         sleep_for(0.5s);
@@ -268,14 +260,7 @@ void Game::FinalResults()                   //Tarkasta kierroksen voittaja
 
 void Game::Menu()
 {
-    cout << "   _________________________________________________________________ " << endl;
-    cout << "  |                                                                 |" << endl;
-    cout << "  |                          1: Aloita                              |" << endl;
-    cout << "  |                          2: Katsele pakkaa                      |" << endl;
-    cout << "  |                          3: Muokkaa pakkaa                      |" << endl;
-    cout << "  |                          4: Lataa peli                          |" << endl;
-    cout << "  |                          5: Lopeta                              |" << endl;
-    cout << "  |_________________________________________________________________|" << endl;
+    UI.showMainMenu();
     cout << "   Valitse: ";
     cin >> this->type_number2;
     checkInput();
@@ -293,6 +278,13 @@ void Game::Menu()
         this->Menu();
         break;
     case 4:
+        Bdeck.CreateDeck(1, 13, 4);
+        this->MAXCARD = Bdeck.GiveMTOTAL();
+        this->MAXMAA = Bdeck.GiveMMAAT();
+        cout << "   Normaali pakka palautettu" << endl;
+        this->Menu();
+        break;
+    case 5:
         this->LoadGame();
         Bdeck.CreateDeck();
         if ((this->points[0] > 0) or (this->points[1] > 0))
@@ -304,7 +296,7 @@ void Game::Menu()
             this->Menu();
         }
         break;
-    case 5:
+    case 9:
         exit(0);
     default:
         this->Menu();
