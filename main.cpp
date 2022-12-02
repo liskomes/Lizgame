@@ -1,7 +1,4 @@
 #include <iostream>
-#include <string>
-#include <list>
-#include <iterator>
 #include "game.h"
 
 using namespace std;
