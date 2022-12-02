@@ -39,6 +39,7 @@ private:
     int AICards[MAXCARDS][2];           //AI:n kortit
 public:
     Game();
+    void setDeckValues();
     void StartGame();
     void PlayerTurn();
     void AITurn();

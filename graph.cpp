@@ -31,6 +31,7 @@ void Graph::modifyDeck()
     cout << "   -Valitse korttilukema maata kohden. Esim: valitset aloituskortiksi 4," << endl;
     cout << "    valitset sitten kortteja maata kohden 4; Pakkaan tulee yhteen maahan" << endl;
     cout << "    kortit 4,5,6,7." << endl;
+    cout << "   -Suurin sallittu kortti on 20(JOKER) ja pienin 1(A)" << endl;
     cout << "   -Kortteja tulee olla pakassa 12-52" << endl << endl;
 }
 

@@ -18,6 +18,11 @@ using namespace std::chrono;
 
 Game::Game()                                        //Hae peruspakan tiedot
 {
+    this->setDeckValues();
+}
+
+void Game::setDeckValues()
+{
     this->MAXCARD = Bdeck.GiveMTOTAL();
     this->MAXMAA = Bdeck.GiveMMAAT();
     this->startCard = Bdeck.GiveMSTARTCARD();
@@ -52,21 +57,16 @@ void Game::Settings()                               //Tee uusi pakka
     checkInput();
     this->endCard = type_number2;
 
-    if ((this->MAXMAA*this->endCard <= 52) && (this->MAXMAA <= 8) && (this->MAXMAA > 0) && (this->MAXMAA*this->endCard >= 12) && (this->startCard+this->endCard <= 20))
+    if ((this->MAXMAA*this->endCard <= 52) && (this->MAXMAA <= 8) && (this->MAXMAA > 0) && (this->MAXMAA*this->endCard >= 12) && (this->startCard+this->endCard <= 21))
     {
         Bdeck.CreateDeck(this->startCard, this->endCard, this->MAXMAA);
-        this->MAXCARD = Bdeck.GiveMTOTAL();
-        this->MAXMAA = Bdeck.GiveMMAAT();
+        this->setDeckValues();
         cout << "   Pakka luotu onnistuneesti" << endl;
     }
     else
     {
-        cout << "   Pakan luontia ei suoritettu. Pakassa saattoi olla liikaa kortteja tai" << endl;
-        cout << "   pakassa ei ollut tarpeeksi kortteja. Kortteja tulisi olla 12-52." << endl;
-        this->MAXCARD = Bdeck.GiveMTOTAL();
-        this->MAXMAA = Bdeck.GiveMMAAT();
-        this->startCard = Bdeck.GiveMSTARTCARD();
-        this->endCard = Bdeck.GiveMCARDS();
+        cout << "   Pakan luonti ei onnistunut. Tarkista raja-arvot" << endl;
+        this->setDeckValues();
     }
 }
 
@@ -279,8 +279,7 @@ void Game::Menu()
         break;
     case 4:
         Bdeck.CreateDeck(1, 13, 4);
-        this->MAXCARD = Bdeck.GiveMTOTAL();
-        this->MAXMAA = Bdeck.GiveMMAAT();
+        this->setDeckValues();
         cout << "   Normaali pakka palautettu" << endl;
         this->Menu();
         break;
@@ -329,10 +328,7 @@ void Game::LoadGame()
         this->points[0] = omatpisteet;
         this->points[1] = vihollispisteet;
         Bdeck.CreateDeck(startC, maxC, maxM);
-        this->MAXCARD = Bdeck.GiveMTOTAL();
-        this->MAXMAA = Bdeck.GiveMMAAT();
-        this->startCard = Bdeck.GiveMSTARTCARD();
-        this->endCard = Bdeck.GiveMCARDS();
+        this->setDeckValues();
         if ((this->points[0] > 0) or (this->points[1] > 0))
         {
             cout << "   " << name << " avattu: " << omatpisteet << "/" << vihollispisteet << "/" << maxC << "/" << maxM << "/" << startC << endl;
